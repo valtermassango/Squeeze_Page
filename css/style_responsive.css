@@ -1,0 +1,1318 @@
+/*==========================================================
+CADBIMOZ SQUEEZE PAGE
+==========================================================*/
+
+/*==========================================================
+RESET
+==========================================================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+
+/*==========================================================
+DESIGN SYSTEM
+==========================================================*/
+
+:root{
+
+    /*======================================================
+    BRAND COLORS
+    ======================================================*/
+
+    --color-primary:#0D5FD4;
+    --color-primary-dark:#082B5F;
+    --color-primary-light:#2F7FE8;
+
+
+    /*======================================================
+    BACKGROUNDS
+    ======================================================*/
+    
+        /* Header */
+        --bg-header:#0B2D63;
+
+        /* Hero */
+        --bg-hero:#F7FAFE;
+
+        /* Porque este eBook é para você */
+        --bg-benefits:#EEF5FC;
+
+        /* O que você vai aprender */
+        --bg-learning:#E9F2FB;
+
+        /* Bónus Exclusivos */
+        --bg-bonus:#F7FAFE;
+
+        /* Quem é o Autor */
+        --bg-author:#5B7090;
+
+        /* Testemunhos */
+        --bg-testimonials:#EEF5FC;
+
+        /* Perguntas Frequentes */
+        --bg-faq:#F7FAFE;
+
+        /* Footer */
+        --bg-footer:#0B2D63;
+
+
+    /*======================================================
+    TEXT
+    ======================================================*/
+
+    --text-dark:#1E293B;
+
+    --text-gray:#64748B;
+
+    --text-light:#FFFFFF;
+
+
+    /*======================================================
+    BORDER
+    ======================================================*/
+
+    --border:#D9E4F2;
+
+
+    /*======================================================
+    BUTTON
+    ======================================================*/
+
+    --button-primary:#0D5FD4;
+
+    --button-hover:#084EB3;
+
+
+    /*======================================================
+    SHADOW
+    ======================================================*/
+
+    --shadow-card:
+        0 15px 40px rgba(0,0,0,.12);
+
+}
+
+/*==========================================================
+CONTAINER
+==========================================================*/
+
+.container{
+    width:min(1200px,90%);
+    margin:auto;
+}
+
+/*==========================================================
+HEADER
+==========================================================*/
+
+.header{
+    background:var(--bg-header);
+    min-height:80px;
+    display:flex;
+    align-items:center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.header .container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header-logo img{
+    height:42px;
+    display:block;
+}
+
+.header-logo h2{
+    color:var(--text-light);
+    font-size:2rem;
+    font-weight:700;
+    letter-spacing:.5px;
+}
+
+.header-security{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--text-light);
+    font-size:var(--fs-sm);
+    font-weight:var(--fw-medium);
+}
+
+.header-security img{
+    width:20px;
+    height:20px;
+}
+
+
+
+
+/* ---------- RESPONSIVIDADE — HEADER ---------- */
+
+@media (max-width:992px){
+
+    .header{
+        min-height:75px;
+    }
+
+    .header .container{
+        width:min(1200px,92%);
+    }
+
+}
+
+@media (max-width:576px){
+
+    .header{
+        min-height:70px;
+    }
+
+    .header-logo img{
+        height:36px;
+    }
+
+    .header-logo h2{
+        font-size:1.6rem;
+    }
+
+    .header-security{
+        gap:7px;
+        font-size:.78rem;
+    }
+
+    .header-security img{
+        width:18px;
+        height:18px;
+    }
+
+}
+
+/*==========================================================
+HERO
+==========================================================*/
+
+.hero{
+    background:var(--bg-hero);
+    min-height:px;
+    padding:100px 0;
+}
+
+.hero .container{
+    display:grid;
+    grid-template-columns:260px 1fr 380px;
+    gap:40px;
+    align-items:top;
+}
+
+.hero-left{
+    display:flex;
+    justify-content:center;
+    align-items:top;
+}
+
+.ebook img{
+    
+    width:100%;
+    max-width:240px;
+    display:block;
+}
+
+.ebook{
+    transform:translateY(-10px);
+    transition:.35s ease;
+    width:240px;
+}
+.ebook img{
+    width:100%;
+    height:auto;
+    max-width:240px;
+    display:block;
+    filter:drop-shadow(0 18px 35px rgba(0,0,0,.22));
+}
+.ebook:hover img{
+    filter:drop-shadow(0 28px 45px rgba(0,0,0,.28));
+}
+.hero-center{
+    display:flex;
+    flex-direction:column;
+}
+.hero-badge{
+    align-self:flex-start;
+    background:var(--color-primary);
+    color:white;
+    padding:8px 18px;
+    border-radius:20px;
+    font-size:.80rem;
+    font-weight:700;
+    letter-spacing:.5px;
+    margin-bottom:22px;
+    text-transform:uppercase;
+}
+.hero-title{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    margin-bottom:28px;
+}
+.hero-title span{
+    font-size:1.0em;
+    line-height:1;
+    font-weight:800;
+    color:var(--text-dark);
+}
+
+.hero-title span:nth-child(2){
+    font-size:4.6rem;
+}
+.hero-title .highlight{
+    color:var(--color-primary);
+}
+.hero-description{
+    max-width:430px;
+    font-size:1.15rem;
+    line-height:1.8;
+    color:var(--text-gray);
+    margin-bottom:40px;
+}
+.hero-features{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+}
+.feature{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    flex:1;
+}
+.feature-icon{
+    width:60px;
+    height:60px;
+    border:2px solid var(--color-primary);
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:12px;
+}
+.feature-icon img{
+    width:28px;
+    height:28px;
+}
+
+.feature span{
+    font-size:.90rem;
+    color:var(--text-dark);
+    line-height:1.4;
+}
+.hero-right{
+    display:flex;
+    justify-content:flex-end;
+}
+.form-card{
+    width:100%;
+    max-width:390px;
+    background:#FFFFFF;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+.form-header{
+    background:var(--color-primary);
+    padding:5px 5px;
+    text-align:center;
+}
+.form-header h2{
+    color:#FFFFFF;
+    font-size:1.6rem;
+    line-height:1.25;
+    font-weight:700;
+}
+.form-body{
+    padding:35px 30px;
+}
+.form-body p{
+    text-align:center;
+    color:var(--text-gray);
+    line-height:1.7;
+    margin-bottom:30px;
+}
+.form-body p{
+    text-align:center;
+    color:var(--text-gray);
+    line-height:1.7;
+    margin-bottom:30px;
+}
+.input-group{
+    margin-bottom:18px;
+}
+.input-group input{
+    width:100%;
+    height:54px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:0 18px;
+    font-size:1rem;
+    outline:none;
+    transition:.3s;
+}
+.input-group input:focus{
+    border-color:var(--color-primary);
+    box-shadow:0 0 0 3px rgba(13,95,212,.12);
+}
+.form-body button{
+    width:100%;
+    height:58px;
+    margin-top:10px;
+    border:none;
+    border-radius:10px;
+    background:var(--color-primary);
+    color:#FFFFFF;
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+.form-body button:hover{
+    background:var(--button-hover);
+}
+.form-footer{
+    padding:18px;
+    text-align:center;
+    font-size:.90rem;
+    color:var(--text-gray);
+    border-top:1px solid #EEF2F7;
+}
+
+
+
+
+
+
+/* ---------- RESPONSIVIDADE — HERO ---------- */
+
+@media (max-width:992px){
+
+    .hero{
+        padding:85px 0 65px;
+    }
+
+    .hero .container{
+        grid-template-columns:1fr;
+        gap:40px;
+        text-align:center;
+    }
+
+    .hero-left{
+        order:1;
+    }
+
+    .ebook{
+        width:230px;
+        margin:auto;
+    }
+
+    .hero-center{
+        order:2;
+        align-items:center;
+    }
+
+    .hero-badge{
+        align-self:center;
+    }
+
+    .hero-title{
+        align-items:center;
+    }
+
+    .hero-description{
+        max-width:700px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .hero-features{
+        width:100%;
+        max-width:600px;
+        justify-content:center;
+    }
+
+    .hero-right{
+        order:3;
+        justify-content:center;
+    }
+
+    .form-card{
+        max-width:500px;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .hero{
+        padding:80px 0 50px;
+    }
+
+    .hero .container{
+        width:92%;
+        gap:30px;
+    }
+
+    .ebook{
+        width:185px;
+    }
+
+    .hero-title{
+        gap:3px;
+        margin-bottom:20px;
+    }
+
+    .hero-title span:nth-child(2){
+        font-size:2.9rem;
+    }
+
+    .hero-description{
+        font-size:1rem;
+        line-height:1.65;
+        margin-bottom:28px;
+    }
+
+    .hero-features{
+        gap:14px;
+    }
+
+    .feature-icon{
+        width:52px;
+        height:52px;
+    }
+
+    .feature-icon img{
+        width:24px;
+        height:24px;
+    }
+
+    .feature span{
+        font-size:.82rem;
+    }
+
+    .form-card{
+        max-width:100%;
+    }
+
+    .form-header h2{
+        font-size:1.35rem;
+    }
+
+    .form-body{
+        padding:28px 20px;
+    }
+
+}
+
+@media (max-width:390px){
+
+    .hero-title span:nth-child(2){
+        font-size:2.5rem;
+    }
+
+    .feature span{
+        font-size:.78rem;
+    }
+
+}
+
+/*==========================================================
+BENEFITS
+==========================================================*/
+
+.benefits{
+    background:var(--bg-benefits);
+    padding:80px 0;
+}
+
+.benefits-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:40px;
+    margin-top:60px;
+}
+.benefit-card{
+    text-align:center;
+    padding:0 20px;
+    position:relative;
+}
+.benefit-card:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    top:10px;
+    right:0;
+    width:1px;
+    height:140px;
+    background:#D8E4F3;
+}
+.benefit-icon{
+    width:75px;
+    height:75px;
+    margin:0 auto 25px;
+    border:3px solid var(--color-primary);
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.benefit-icon img{
+    width:34px;
+}
+.benefit-card h3{
+    font-size:1.2rem;
+    color:var(--text-dark);
+    margin-bottom:12px;
+}
+.benefit-card p{
+    color:var(--text-gray);
+    line-height:1.7;
+    font-size:.95rem;
+}
+
+
+
+
+/* ---------- RESPONSIVIDADE — BENEFITS ---------- */
+
+@media (max-width:992px){
+
+    .benefits{
+        padding:70px 0;
+    }
+
+    .benefits-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:45px 25px;
+        margin-top:45px;
+    }
+
+    .benefit-card:not(:last-child)::after{
+        display:none;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .benefits{
+        padding:60px 0;
+    }
+
+    .benefits-grid{
+        grid-template-columns:1fr;
+        gap:40px;
+        margin-top:40px;
+    }
+
+}
+
+/*==========================================================
+LEARNING
+==========================================================*/
+
+.learning{
+    background:var(--bg-learning);
+    padding:90px 0;
+}
+.learning-title{
+    text-align:left;
+    margin-bottom:60px;
+}
+.ltitle h2{
+    color:var(--text-dark);
+    font-size:2.2rem;
+    font-weight:700;
+    text-transform:uppercase;
+}
+
+.learning-grid{
+    display:grid;
+    grid-template-columns:1fr 600px;
+    gap:40px;
+    align-items:center;
+}
+.learning-list{
+    list-style:none;
+    margin-top:40px;
+}
+.learning-list li{
+    position:relative;
+    padding-left:35px;
+    margin-bottom:28px;
+    font-size:1.1rem;
+    color:var(--text-dark);
+}
+.learning-list li::before{
+    content:"✓";
+    position:absolute;
+    left:0;
+    color:var(--color-primary);
+    font-weight:bold;
+}
+.learning-image{
+    display:flex;
+    justify-content:center;
+}
+.learning-image img{
+    width:100%;
+    max-width:540px;
+    display:block;
+}
+.learning-image img{
+    width:100%;
+    max-width:540px;
+    display:block;
+    filter:drop-shadow(
+        0 30px 40px rgba(0,0,0,.18)
+    );
+}
+.learning-image img{
+    transition:.4s;
+}
+.learning-image img:hover{
+    transform:translateY(-8px);
+    filter:drop-shadow(
+        0 40px 55px rgba(0,0,0,.22)
+    );
+}
+.learning-line{
+    width:60px;
+    height:3px;
+    background:rgb(29, 21, 153);
+    margin-bottom:22px;
+}
+
+
+
+
+/* ---------- RESPONSIVIDADE — LEARNING ---------- */
+
+@media (max-width:992px){
+
+    .learning{
+        padding:75px 0;
+    }
+
+    .learning-grid{
+        grid-template-columns:1fr;
+        gap:45px;
+    }
+
+    .learning-title{
+        margin-bottom:40px;
+    }
+
+    .learning-list{
+        margin-top:25px;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .learning{
+        padding:60px 0;
+    }
+
+    .learning-title{
+        margin-bottom:35px;
+    }
+
+    .ltitle h2{
+        font-size:1.75rem;
+    }
+
+    .learning-list{
+        margin-top:20px;
+    }
+
+    .learning-list li{
+        padding-left:28px;
+        margin-bottom:20px;
+        font-size:1rem;
+    }
+
+}
+
+/*==========================================================
+BONUS
+==========================================================*/
+
+.bonus{
+    background:var(--bg-bonus);
+    min-height:260px;
+}
+.section-title{
+    text-align:center;
+    margin-bottom:60px;
+}
+.section-title h2{
+    color:var(--text-dark);
+    font-size:2.2rem;
+    font-weight:700;
+    text-transform:uppercase;
+}
+.section-line{
+    width:70px;
+    height:4px;
+    background:var(--color-primary);
+    margin:15px auto 0;
+    border-radius:10px;
+}
+.bonus-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:50px;
+}
+.bonus-card{
+    display:flex;
+    align-items:flex-start;
+    gap:20px;
+}
+.bonus-icon{
+    width:70px;
+    height:70px;
+    flex-shrink:0;
+    background:var(--color-primary);
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.bonus-icon img{
+    width:32px;
+}
+.bonus-card h3{
+    font-size:1.25rem;
+    color:var(--text-dark);
+    margin-bottom:12px;
+}
+.bonus-card p{
+    color:var(--text-gray);
+    line-height:1.6;
+    font-size:.95rem;
+}
+.bonus-info{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+
+
+
+
+/* ---------- RESPONSIVIDADE — BONUS ---------- */
+
+@media (max-width:992px){
+
+    .bonus{
+        padding:70px 0;
+    }
+
+    .bonus-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:40px 30px;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .bonus{
+        padding:60px 0;
+    }
+
+    .bonus-grid{
+        grid-template-columns:1fr;
+        gap:30px;
+    }
+
+    .bonus-icon{
+        width:60px;
+        height:60px;
+    }
+
+    .bonus-icon img{
+        width:28px;
+    }
+
+}
+
+/*==========================================================
+AUTHOR
+==========================================================*/
+
+.author{
+        background:linear-gradient(
+        90deg,
+        #506683 0%,
+        #5D7392 100%
+    );
+
+    padding:55px 0;
+}
+.author-content{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    align-items:center;
+    gap:50px;
+}
+.author-photo{
+    display:flex;
+    justify-content:center;
+}
+
+.author-photo img{
+    width:275px;
+    height:275px;
+    object-fit:cover;
+    border-radius:20%;
+    border:6px solid rgba(255,255,255,.12);
+}
+
+.author-text{
+    color:white;
+}
+
+.author-text h2{
+    font-size:2rem;
+    font-weight:700;
+    margin-bottom:12px;
+    text-transform:uppercase;
+}
+
+.author-line{
+    width:60px;
+    height:3px;
+    background:white;
+    margin-bottom:22px;
+}
+
+.author-text p{
+    color:rgba(255,255,255,.90);
+    font-size:1.3rem;
+    line-height:2.0;
+    margin-bottom:22px;
+    max-width:700px;
+}
+
+
+
+
+/* ---------- RESPONSIVIDADE — AUTHOR ---------- */
+
+@media (max-width:992px){
+
+    .author{
+        padding:60px 0;
+    }
+
+    .author-content{
+        grid-template-columns:1fr;
+        gap:35px;
+        text-align:center;
+    }
+
+    .author-photo img{
+        width:230px;
+        height:230px;
+    }
+
+    .author-text{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .author-line{
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .author-text p{
+        font-size:1.1rem;
+        line-height:1.8;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .author{
+        padding:50px 0;
+    }
+
+    .author-photo img{
+        width:190px;
+        height:190px;
+    }
+
+    .author-text h2{
+        font-size:1.55rem;
+    }
+
+    .author-text p{
+        font-size:1rem;
+        line-height:1.7;
+    }
+
+}
+
+/*==========================================================
+TESTIMONIALS
+==========================================================*/
+.testimonials{
+    background:var(--bg-testimonials);
+    padding:90px 0;
+}
+
+.testimonials-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:40px;
+    margin-top:60px;
+}
+
+.student-grid{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:40px;
+}
+
+.student{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    cursor:pointer;
+    transition:.35s ease;
+
+}
+.student img{
+    width:85px;
+    height:85px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid transparent;
+    transition:.35s;
+}
+.student span{
+    margin-top:12px;
+    font-weight:600;
+    color:var(--text-gray);
+}
+.student.active img{
+    border-color:var(--color-primary);
+    transform:scale(1.08);
+    box-shadow:0 12px 30px rgba(13,95,212,.25);
+}
+
+.student.active span{
+    color:var(--color-primary);
+}
+.testimonial-display{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    
+}
+.stars{
+    color:blue;
+    font-size:2.2rem;
+    margin-bottom:12px;
+    align-self:flex-start;
+}
+
+
+
+
+
+
+
+
+
+
+/* ---------- RESPONSIVIDADE — TESTIMONIALS ---------- */
+
+@media (max-width:992px){
+
+    .testimonials{
+        padding:75px 0;
+    }
+
+    .testimonials-grid{
+        grid-template-columns:1fr;
+        gap:45px;
+        margin-top:45px;
+    }
+
+    .student-grid{
+        gap:30px;
+    }
+
+    .testimonial-display{
+        align-items:center;
+    }
+
+    .stars{
+        align-self:center;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .testimonials{
+        padding:60px 0;
+    }
+
+    .testimonials-grid{
+        gap:30px;
+        margin-top:40px;
+    }
+
+    .student-grid{
+        flex-wrap:wrap;
+        gap:20px 24px;
+    }
+
+    .student img{
+        width:72px;
+        height:72px;
+    }
+
+    .student span{
+        margin-top:8px;
+        font-size:.9rem;
+    }
+
+    .stars{
+        font-size:1.8rem;
+    }
+
+}
+
+/*==========================================================
+FAQ
+==========================================================*/
+
+.faq{
+    background:var(--bg-faq);
+    padding:90px 0;
+}
+.faq-item{
+    background:white;
+    border-radius:10px;
+    margin-bottom:12px;
+    overflow:hidden;
+    box-shadow:0 6px 18px rgba(0,0,0,.05);
+}
+.faq-question{
+    width:100%;
+    background:none;
+    border:none;
+    padding:22px 28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+    font-size:1rem;
+    font-weight:600;
+    color:var(--text-dark);
+}
+.faq-icon{
+    font-size:1.4rem;
+    color:var(--color-primary);
+    transition:.3s;
+}
+.faq-answer{
+    display:none;
+    padding:0 28px 22px;
+}
+.faq-answer p{
+    color:var(--text-gray);
+    line-height:1.8;
+}
+.faq-item.active .faq-answer{
+    display:block;
+}
+.faq-item.active .faq-icon{
+    transform:rotate(180deg);
+}
+
+
+
+
+/* ---------- RESPONSIVIDADE — FAQ ---------- */
+
+@media (max-width:992px){
+
+    .faq{
+        padding:75px 0;
+    }
+
+    .faq-question{
+        padding:20px 24px;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .faq{
+        padding:60px 0;
+    }
+
+    .faq-question{
+        padding:18px;
+        gap:15px;
+        font-size:.95rem;
+        text-align:left;
+    }
+
+    .faq-answer{
+        padding:0 18px 18px;
+    }
+
+    .faq-answer p{
+        font-size:.95rem;
+        line-height:1.7;
+    }
+
+}
+
+/*==========================================================
+FOOTER
+==========================================================*/
+
+.footer{
+    background:var(--bg-footer);
+    min-height:90px 0;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    align-items:center;
+    gap:40px;
+}
+
+.footer-brand img{
+    height:42px;
+    margin-bottom:10px;
+}
+
+.footer-brand p{
+    color:var(--text-light);
+    font-size:var(--fs-sm);
+}
+.footer-security{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.footer-security img{
+    width:24px;
+    height:24px;
+}
+
+.footer-security p{
+    color:var(--text-light);
+    font-size:var(--fs-sm);
+    margin-bottom:4px;
+}
+
+.footer-security small{
+    color:rgba(255,255,255,.75);
+}
+.footer-copyright{
+    text-align:right;
+}
+.footer-copyright p{
+    color:var(--text-light);
+    font-size:var(--fs-sm);
+    margin-bottom:8px;
+}
+.footer-copyright nav{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+.footer-copyright a{
+    color:rgba(255,255,255,.80);
+    text-decoration:none;
+    transition:.3s;
+}
+.footer-copyright a:hover{
+    color:white;
+}
+.footer-copyright span{
+    color:rgba(255,255,255,.50);
+}
+ .footer-brand h2{
+    color:var(--text-light);
+    font-size:2rem;
+    font-weight:700;
+    letter-spacing:.5px;
+}
+
+/* ---------- RESPONSIVIDADE — FOOTER ---------- */
+
+@media (max-width:992px){
+
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
+        gap:30px;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .footer-grid{
+        grid-template-columns:1fr;
+        text-align:center;
+        gap:30px;
+    }
+
+    .footer-security{
+        justify-content:center;
+    }
+
+    .footer-copyright{
+        text-align:center;
+    }
+
+    .footer-copyright nav{
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+}
