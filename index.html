@@ -15,9 +15,11 @@
     <meta property="og:type" content="website">
     <link rel="canonical" href="https://ebookautocad.dasuida.com">
     <title>CADBIMOZ | eBook AutoCAD 2027</title>
-    <link rel="stylesheet" href="style_responsive.css">
+    <link rel="stylesheet" href="css/style_responsive.css">
 
 </head>
+
+
 
 <body>
 
@@ -28,9 +30,10 @@
             </div>
 
             <div class="header-security">
-                <img src="img/icon-shield.svg" alt="" loading="lazy" decoding="async">
+                <img src="img/icons/shield-check.svg" alt="">
                 <span>100% Gratuito e Seguro</span>
             </div>
+           
         </div>
     </header>
  
@@ -41,7 +44,15 @@
             <!-- Livro -->
             <div class="hero-left">
                 <div class="ebook">
-                    <img src="img/ebook 03.png"  alt="eBook AutoCAD 2027"  loading="lazy" decoding="async">
+                    <img src="img/ebook-370.webp" 
+                            srcset="
+                            img/ebook/ebook-370.webp 370w,
+                            img/ebook/ebook-480.webp 480w"
+                            sizes="(max-width: 576px) 185px, 240px"
+                            width="370"
+                            height="555"
+                            alt="eBook AutoCAD 2027"
+                            decoding="async">
                 </div>
             </div>
 
@@ -71,28 +82,28 @@
                 <div class="hero-features">
                     <div class="feature">
                         <div class="feature-icon">
-                            <img src="img/pdf.svg" alt="PDF" loading="lazy" decoding="async">
+                            <img src="img/icons/clipboard-check.svg" alt="PDF" loading="lazy" decoding="async">
                         </div>
                         <span>PDF Gratuito</span>
                     </div>
 
                     <div class="feature">
                         <div class="feature-icon">
-                            <img src="img/examples.svg" alt="Exemplos" loading="lazy" decoding="async">
+                            <img src="img/icons/graduation-cap.svg" alt="Exemplos" loading="lazy" decoding="async">
                         </div>
                         <span>Exemplos<br>Práticos</span>
                     </div>
 
                     <div class="feature">
                         <div class="feature-icon">
-                            <img src="img/check.svg" alt="Compatível" loading="lazy" decoding="async">
+                            <img src="img/icons/check-check.svg" alt="Compatível" loading="lazy" decoding="async">
                         </div>
                         <span>Compatível com<br>AutoCAD 2027</span>
                     </div>
 
                     <div class="feature">
                         <div class="feature-icon">
-                            <img src="img=user.svg" alt="Ideal" loading="lazy" decoding="async">
+                            <img src="img/icons/user-round.svg" alt="Ideal" loading="lazy" decoding="async">
                         </div>
                         <span>Ideal para<br>Iniciantes</span>
                     </div>
@@ -115,22 +126,51 @@
                             o eBook no seu e-mail e WhatsApp.
                         </p>
 
-                        <form>
+                        <form id="ebook-form" novalidate>
+                            <!-- NOME -->
                             <div class="input-group">
-                                <input type="text" placeholder="Seu nome">
+                                <input
+                                    type="text"
+                                    id="nome"
+                                    name="nome"
+                                    placeholder="Seu nome"
+                                    autocomplete="name"
+                                >
+                                <small class="form-error" id="nome-error"></small>
                             </div>
 
+                            <!-- EMAIL -->
                             <div class="input-group">
-                                <input type="email" placeholder="Seu email">
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Seu email"
+                                    autocomplete="email"
+                                >
+                                <small class="form-error" id="email-error"></small>
                             </div>
 
+                            <!-- WHATSAPP -->
                             <div class="input-group">
-                                <input  type="tel"  placeholder="Seu WhatsApp (com DDD)">
+                                <input
+                                    type="tel"
+                                    id="whatsapp"
+                                    name="whatsapp"
+                                    placeholder="Seu WhatsApp (com DDD)"
+                                    autocomplete="tel"
+                                    inputmode="tel"
+                                >
+                                <small class="form-error" id="whatsapp-error"></small>
                             </div>
 
+                            <!-- BOTÃO -->
                             <button type="submit">
                                 QUERO RECEBER O EBOOK AGORA
                             </button>
+                            <p id="form-success" class="form-success">
+                                Obrigado! Seus dados foram recebidos com sucesso.
+                            </p>
 
                         </form>
                     </div>
@@ -153,7 +193,7 @@
                 <div class="benefits-grid">
                     <article class="benefit-card">
                         <div class="benefit-icon">
-                            <img src="img/icon-target.svg" alt="Produtividade" loading="lazy" decoding="async">
+                            <img src="img/icons/target.svg" alt="Produtividade" loading="lazy" decoding="async">
                         </div>
 
                         <h3>Mais Produtividade</h3>
@@ -164,7 +204,7 @@
 
                     <article class="benefit-card">
                         <div class="benefit-icon">
-                            <img src="img/icon-clock.svg" alt="Tempo" loading="lazy" decoding="async">
+                            <img src="img/icons/clock.svg" alt="Tempo" loading="lazy" decoding="async">
                         </div>
                         <h3>Economize Tempo</h3>
                         <p>
@@ -174,7 +214,7 @@
 
                     <article class="benefit-card">
                         <div class="benefit-icon">
-                            <img src="img/icon-growth.svg" alt="Evolução" loading="lazy" decoding="async">
+                            <img src="img/icons/chart-no-axes-combined.svg" alt="Evolução" loading="lazy" decoding="async">
                         </div>
 
                         <h3>Evolua Mais Rápido</h3>
@@ -185,7 +225,7 @@
 
                     <article class="benefit-card">
                         <div class="benefit-icon">
-                            <img src="img/icon-check.svg" alt="Conteúdo" loading="lazy" decoding="async">
+                            <img src="img/icons/circle-check-big.svg" alt="Conteúdo" loading="lazy" decoding="async">
                         </div>
 
                         <h3>Conteúdo Direto</h3>
@@ -218,7 +258,7 @@
                     </div>
                     <!-- Imagem -->
                     <div class="learning-image">
-                        <img src="img/AutoCAD Screen.png" alt="Projeto arquitetónico desenvolvido no AutoCAD">
+                        <img src="img/autocad screen/AutoCAD Screen.png" alt="Projeto arquitetónico desenvolvido no AutoCAD">
                     </div>
                 </div>
             </div>
@@ -234,7 +274,7 @@
                 <div class="bonus-grid">
                     <article class="bonus-card">
                         <div class="bonus-icon">
-                            <img src="img/icon-library.svg" alt="Biblioteca">
+                            <img src="img/icons/library-big.svg" alt="Biblioteca">
                         </div>
                          <div class="bonus-info">
                             <h3>Biblioteca de Blocos</h3>
@@ -248,7 +288,7 @@
 
                     <article class="bonus-card">
                         <div class="bonus-icon">
-                            <img src="img/icon-folder.svg" alt="Templates">
+                            <img src="img/icons/folder-open.svg" alt="Templates">
                         </div>
                         <div class="bonus-info">
                             <h3>Templates Profissionais</h3>
@@ -262,7 +302,7 @@
 
                     <article class="bonus-card">
                         <div class="bonus-icon">
-                            <img src="img/icon-video.svg" alt="Vídeo">
+                            <img src="img/icons/play.svg" alt="Vídeo">
                         </div>
                          <div class="bonus-info">
                              <h3>Vídeo Aulas Bónus</h3>
@@ -282,7 +322,7 @@
                 <div class="author-content">
                     <!-- Foto -->
                     <div class="author-photo">
-                        <img src="img/valter.jpeg" alt="Valter Massango" loading="lazy" decoding="async">
+                        <img src="img/author/valter.jpeg" alt="Valter Massango" loading="lazy" decoding="async">
                     </div>
                     <!-- Texto -->
                     <div class="author-text">
@@ -463,6 +503,6 @@
     </footer>
 
 </body>
-<script src="js/main.js" defer></script>
+<script src="js/script.js"></script>
 
 </html>

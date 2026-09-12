@@ -157,8 +157,8 @@ HEADER
 }
 
 .header-security img{
-    width:20px;
-    height:20px;
+    width:40px;
+    height:40px;
 }
 
 
@@ -402,10 +402,33 @@ HERO
     border-top:1px solid #EEF2F7;
 }
 
+/*==========================================================
+FORM VALIDATION
+==========================================================*/
 
+.form-error {
+    display: block;
+    color: red;
+    font-size: 0.78rem;
+    margin-top: 6px;
+}
 
+/* Campo com erro */
+.input-group.error input {
+    border-color: #D93025;
+    box-shadow: 0 0 0 2px rgba(217, 48, 37, 0.08);
+}
 
+/* Mostrar mensagem de erro */
+.input-group.error .form-error {
+    display: block;
+}
 
+/* Campo válido */
+.input-group.valid input {
+    border-color: #16A34A;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.08);
+}
 
 /* ---------- RESPONSIVIDADE — HERO ---------- */
 
@@ -573,14 +596,14 @@ BENEFITS
     width:75px;
     height:75px;
     margin:0 auto 25px;
-    border:3px solid var(--color-primary);
-    border-radius:50%;
+    /*border:3px solid var(--color-primary);
+    border-radius:50%;*/
     display:flex;
     justify-content:center;
     align-items:center;
 }
 .benefit-icon img{
-    width:34px;
+    width:75px;
 }
 .benefit-card h3{
     font-size:1.2rem;
@@ -592,9 +615,6 @@ BENEFITS
     line-height:1.7;
     font-size:.95rem;
 }
-
-
-
 
 /* ---------- RESPONSIVIDADE — BENEFITS ---------- */
 
@@ -1315,4 +1335,25 @@ FOOTER
         flex-wrap:wrap;
     }
 
+}
+
+/* ==========================================================
+   MENSAGEM DE SUCESSO DO FORMULÁRIO
+   ========================================================== */
+
+.form-success {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 6px;
+
+    color: #166534;
+    background-color: #DCFCE7;
+
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.form-success.show {
+    display: block;
 }
