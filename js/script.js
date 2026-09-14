@@ -295,16 +295,10 @@ function validateWhatsapp() {
    ========================================================== */
 
 form.addEventListener("submit", function(event) {
-
     event.preventDefault();
-
-
     const nomeValido = validateNome();
-
     const emailValido = validateEmail();
-
     const whatsappValido = validateWhatsapp();
-
 
 if (
     nomeValido &&
@@ -313,20 +307,41 @@ if (
 ) {
 
     const dados = {
-
         nome: nome.value.trim(),
-
         email: email.value.trim(),
-
         whatsapp: whatsapp.value.trim()
-
     };
 
-    console.log("Formulário válido!");
-    console.log("Dados do lead:", dados);
-    formSuccess.classList.add("show");
 
+    console.log("Enviando dados:", dados);
+
+    fetch("http://localhost:3002/leads", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+    })
+
+    .then(response => {
+        return response.json();
+    })
+
+    .then(data => {
+        console.log("Resposta do servidor:", data);
+        if (data.success) {
+            formSuccess.classList.add("show");
+        }
+    })
+
+    .catch(error => {
+        console.error(
+            "Erro ao enviar o formulário:",
+            error
+        );
+    });
 }
+
 
 });
 
