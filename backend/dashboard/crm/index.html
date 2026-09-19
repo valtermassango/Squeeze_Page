@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>CADBIMOZ | CRM</title>
+
+    <link
+        rel="stylesheet"
+        href="css/crm.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- ==================================================
+         SIDEBAR
+    =================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            CADBIMOZ
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="#"
+                class="nav-link active"
+            >
+                Dashboard
+            </a>
+
+            <a
+                href="#"
+                class="nav-link"
+            >
+                Leads
+            </a>
+
+            <a
+                href="#"
+                class="nav-link"
+            >
+                Campanhas
+            </a>
+
+            <a
+                href="#"
+                class="nav-link"
+            >
+                Relatórios
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            CRM CADBIMOZ
+        </div>
+
+    </aside>
+
+
+    <!-- ==================================================
+         CONTEÚDO PRINCIPAL
+    =================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- ==================================================
+             HEADER
+        =================================================== -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    CRM
+                </h1>
+
+                <p>
+                    Gestão de leads CADBIMOZ
+                </p>
+
+            </div>
+
+            <div class="user-area">
+
+                <span>
+                    Administrador
+                </span>
+
+            </div>
+
+        </header>
+
+
+        <!-- ==================================================
+             ESTATÍSTICAS GERAIS
+        =================================================== -->
+
+        <section class="stats">
+
+
+            <!-- TOTAL DE LEADS -->
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Total de Leads
+                </span>
+
+                <strong
+                    id="total-leads"
+                    class="stat-value"
+                >
+                    0
+                </strong>
+
+            </div>
+
+
+            <!-- LEADS HOJE -->
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Leads Hoje
+                </span>
+
+                <strong
+                    id="leads-today"
+                    class="stat-value"
+                >
+                    0
+                </strong>
+
+            </div>
+
+
+            <!-- LEADS ESTE MÊS -->
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Leads Este Mês
+                </span>
+
+                <strong
+                    id="leads-month"
+                    class="stat-value"
+                >
+                    0
+                </strong>
+
+            </div>
+
+
+            <!-- TOTAL DOWNLOADS -->
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Total Downloads
+                </span>
+
+                <strong
+                    id="total-downloads"
+                    class="stat-value"
+                >
+                    0
+                </strong>
+
+            </div>
+
+
+            <!-- DOWNLOADS HOJE -->
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Downloads Hoje
+                </span>
+
+                <strong
+                    id="downloads-today"
+                    class="stat-value"
+                >
+                    0
+                </strong>
+
+            </div>
+
+
+            <!-- DOWNLOADS ESTE MÊS -->
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Downloads Este Mês
+                </span>
+
+                <strong
+                    id="downloads-month"
+                    class="stat-value"
+                >
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             PROVENIÊNCIA DOS LEADS
+        =================================================== -->
+
+        <section class="source-section">
+
+            <div class="source-header">
+
+                <h2>
+                    Proveniência dos Leads
+                </h2>
+
+                <p>
+                    Origem dos contactos capturados pela squeeze page
+                </p>
+
+            </div>
+
+
+            <div class="stats">
+
+
+                <!-- FACEBOOK -->
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Facebook
+                    </span>
+
+                    <strong
+                        id="source-facebook"
+                        class="stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <span class="source-download">
+                        Downloads:
+                        <strong id="downloads-facebook">
+                            0
+                        </strong>
+                    </span>
+                    <span class="source-rate">
+                        Taxa de Download:
+                        <strong id="rate-facebook">
+                            0%
+                        </strong>
+                    </span>
+
+                </div>
+
+
+                <!-- TIKTOK -->
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        TikTok
+                    </span>
+
+                    <strong
+                        id="source-tiktok"
+                        class="stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <span class="source-download">
+                        Downloads:
+                        <strong id="downloads-tiktok">
+                            0
+                        </strong>
+
+                        <span class="source-rate">
+                            Taxa de Download:
+                            <strong id="rate-tiktok">
+                                0%
+                            </strong>
+                        </span>
+                    </span>
+
+                </div>
+
+
+                <!-- YOUTUBE -->
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        YouTube
+                    </span>
+
+                    <strong
+                        id="source-youtube"
+                        class="stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <span class="source-download">
+                        Downloads:
+                        <strong id="downloads-youtube">
+                            0
+                        </strong>
+                        <span class="source-rate">
+                            Taxa de Download:
+                            <strong id="rate-youtube">
+                                0%
+                            </strong>
+                        </span>
+                    </span>
+
+                </div>
+
+
+                <!-- WHATSAPP -->
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        WhatsApp
+                    </span>
+
+                    <strong
+                        id="source-whatsapp"
+                        class="stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <span class="source-download">
+                        Downloads:
+                        <strong id="downloads-whatsapp">
+                            0
+                        </strong>
+                        <span class="source-rate">
+                            Taxa de Download:
+                            <strong id="rate-whatsapp">
+                                0%
+                            </strong>
+                        </span>
+                    </span>
+
+                </div>
+
+
+                <!-- DIRETO / OUTROS -->
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Direto / Outros
+                    </span>
+
+                    <strong
+                        id="source-direct"
+                        class="stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <span class="source-download">
+                        Downloads:
+                        <strong id="downloads-direct">
+                            0
+                        </strong>
+                        <span class="source-rate">
+                            Taxa de Download:
+                            <strong id="rate-direct">
+                                0%
+                            </strong>
+                        </span>
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             LEADS
+        =================================================== -->
+
+        <section class="leads-section">
+
+
+            <!-- CABEÇALHO DA SECÇÃO -->
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Leads Recentes
+                    </h2>
+
+                    <p>
+                        Últimos contactos registados
+                    </p>
+
+                </div>
+
+
+                <!-- FERRAMENTAS -->
+
+                <div class="lead-tools">
+
+                    <input
+                        type="search"
+                        id="search-leads"
+                        placeholder="Pesquisar lead..."
+                        autocomplete="off"
+                    >
+
+                    <button
+                        id="refresh-leads"
+                        type="button"
+                    >
+                        Atualizar
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==================================================
+                 STATUS
+            =================================================== -->
+
+            <p
+                id="crm-status"
+                class="crm-status"
+            ></p>
+
+
+            <!-- ==================================================
+                 TABELA DE LEADS
+            =================================================== -->
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Nome</th>
+
+                            <th>Email</th>
+
+                            <th>WhatsApp</th>
+
+                            <th>Origem</th>
+
+                            <th>Meio</th>
+
+                            <th>Campanha</th>
+
+                            <th>Conteúdo</th>
+
+                            <th>Data</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="leads-table">
+
+                        <!--
+                            Os leads serão inseridos
+                            pelo JavaScript.
+                        -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==================================================
+         JAVASCRIPT
+    =================================================== -->
+
+    <script src="js/crm.js"></script>
+
+</body>
+
+</html>

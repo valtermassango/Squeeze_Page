@@ -1357,3 +1357,10 @@ FOOTER
 .form-success.show {
     display: block;
 }
+
+/* Mensagem de erro de conexão */
+.form-success.connection-error {
+    display: block !important;
+    color: #991B1B !important;
+    background-color: #FEE2E2 !important;
+}

@@ -1,6 +1,11 @@
-/* ==========================================================
-   FAQ
-   ========================================================== */
+// ==========================================================
+// CADBIMOZ - SCRIPT PRINCIPAL
+// ==========================================================
+
+
+// ==========================================================
+// 1. FAQ
+// ==========================================================
 
 const questions = document.querySelectorAll(".faq-question");
 
@@ -25,9 +30,9 @@ questions.forEach(question => {
 });
 
 
-/* ==========================================================
-   TESTEMUNHOS
-   ========================================================== */
+// ==========================================================
+// 2. DEPOIMENTOS / TESTEMUNHOS
+// ==========================================================
 
 const students = document.querySelectorAll(".student");
 
@@ -40,6 +45,7 @@ let current = 0;
 let interval;
 
 
+// Mostrar estudante
 function showStudent(index) {
 
     students.forEach(student => {
@@ -59,6 +65,7 @@ function showStudent(index) {
 }
 
 
+// Rotação automática
 function startRotation() {
 
     interval = setInterval(() => {
@@ -76,6 +83,7 @@ function startRotation() {
 }
 
 
+// Pausar ao passar o mouse
 students.forEach((student, index) => {
 
     student.addEventListener("mouseenter", () => {
@@ -96,26 +104,37 @@ students.forEach((student, index) => {
 });
 
 
-showStudent(0);
+// Inicializar depoimentos
+if (students.length > 0) {
 
-startRotation();
+    showStudent(0);
+
+    startRotation();
+
+}
 
 
-/* ==========================================================
-   VALIDAÇÃO DO FORMULÁRIO
-   ========================================================== */
+// ==========================================================
+// 3. FORMULÁRIO
+// ==========================================================
 
 const form = document.getElementById("ebook-form");
+
 const nome = document.getElementById("nome");
+
 const email = document.getElementById("email");
+
 const whatsapp = document.getElementById("whatsapp");
+
 const formSuccess = document.getElementById("form-success");
 
 
-/* ==========================================================
-   MOSTRAR ERRO
-   ========================================================== */
+// ==========================================================
+// 4. FUNÇÕES DE VALIDAÇÃO
+// ==========================================================
 
+
+// Mostrar erro
 function showError(input, message) {
 
     const group = input.closest(".input-group");
@@ -131,10 +150,7 @@ function showError(input, message) {
 }
 
 
-/* ==========================================================
-   MOSTRAR CAMPO VÁLIDO
-   ========================================================== */
-
+// Mostrar campo válido
 function showValid(input) {
 
     const group = input.closest(".input-group");
@@ -150,13 +166,14 @@ function showValid(input) {
 }
 
 
-/* ==========================================================
-   VALIDAR NOME
-   ========================================================== */
+// ==========================================================
+// 5. VALIDAR NOME
+// ==========================================================
 
 function validateNome() {
 
     const value = nome.value.trim();
+
 
     if (value === "") {
 
@@ -188,30 +205,15 @@ function validateNome() {
 
 }
 
-/* ==========================================================
-   VALIDAR AO SAIR DO CAMPO
-   ========================================================== */
 
-nome.addEventListener("blur", function() {
-    validateNome();
-});
-
-email.addEventListener("blur", function() {
-    validateEmail();
-});
-
-whatsapp.addEventListener("blur", function() {
-    validateWhatsapp();
-});
-
-
-/* ==========================================================
-   VALIDAR EMAIL
-   ========================================================== */
+// ==========================================================
+// 6. VALIDAR EMAIL
+// ==========================================================
 
 function validateEmail() {
 
     const value = email.value.trim();
+
 
     if (value === "") {
 
@@ -225,6 +227,7 @@ function validateEmail() {
     }
 
 
+    // Regex para validar o formato básico do e-mail
     const emailRegex =
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -248,13 +251,14 @@ function validateEmail() {
 }
 
 
-/* ==========================================================
-   VALIDAR WHATSAPP
-   ========================================================== */
+// ==========================================================
+// 7. VALIDAR WHATSAPP
+// ==========================================================
 
 function validateWhatsapp() {
 
     const value = whatsapp.value.trim();
+
 
     if (value === "") {
 
@@ -268,10 +272,14 @@ function validateWhatsapp() {
     }
 
 
+    // Retirar espaços, +, -, parênteses etc.
     const digits = value.replace(/\D/g, "");
 
 
-    if (digits.length < 9 || digits.length > 12) {
+    if (
+        digits.length < 9 ||
+        digits.length > 12
+    ) {
 
         showError(
             whatsapp,
@@ -290,69 +298,232 @@ function validateWhatsapp() {
 }
 
 
-/* ==========================================================
-   VALIDAR FORMULÁRIO
-   ========================================================== */
+// ==========================================================
+// 8. VALIDAR AO SAIR DO CAMPO
+// ==========================================================
 
-form.addEventListener("submit", function(event) {
+nome.addEventListener("blur", () => {
+
+    validateNome();
+
+});
+
+
+email.addEventListener("blur", () => {
+
+    validateEmail();
+
+});
+
+
+whatsapp.addEventListener("blur", () => {
+
+    validateWhatsapp();
+
+});
+
+
+// ==========================================================
+// 9. ENVIO DO FORMULÁRIO
+// ==========================================================
+
+form.addEventListener("submit", async (event) => {
+
+    // Impedir o comportamento normal do formulário
     event.preventDefault();
+
+
+    // ======================================================
+    // VALIDAR OS CAMPOS
+    // ======================================================
+
     const nomeValido = validateNome();
+
     const emailValido = validateEmail();
+
     const whatsappValido = validateWhatsapp();
 
-if (
-    nomeValido &&
-    emailValido &&
-    whatsappValido
-) {
 
+    // Se existir algum erro, parar aqui
+    if (
+        !nomeValido ||
+        !emailValido ||
+        !whatsappValido
+    ) {
+
+        return;
+
+    }
+
+
+    // ======================================================
+    // RECOLHER OS DADOS
+    // ======================================================
+
+    const utm = getUTMParameters();
     const dados = {
+
         nome: nome.value.trim(),
         email: email.value.trim(),
-        whatsapp: whatsapp.value.trim()
+        whatsapp: whatsapp.value.trim(),
+        utm_source: utm.utm_source,
+        utm_medium: utm.utm_medium,
+        utm_campaign: utm.utm_campaign,
+        utm_content: utm.utm_content
+
     };
 
+    
 
-    console.log("Enviando dados:", dados);
 
-    fetch("http://localhost:3002/leads", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dados)
-    })
+    console.log("Enviando dados:");
 
-    .then(response => {
-        return response.json();
-    })
+    console.log(dados);
 
-    .then(data => {
-        console.log("Resposta do servidor:", data);
+
+    // ======================================================
+    // ENVIAR PARA O BACKEND
+    // ======================================================
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:3002/leads",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(dados)
+            }
+        );
+
+
+        // Transformar resposta em JSON
+        const data = await response.json();
+
+
+        console.log("Resposta do servidor:");
+
+        console.log(data);
+
+
+        // ==================================================
+        // VERIFICAR RESPOSTA
+        // ==================================================
+
         if (data.success) {
-            formSuccess.classList.add("show");
-        }
-    })
 
-    .catch(error => {
+            // ==============================================
+            // SUCESSO
+            // ==============================================
+
+            formSuccess.classList.remove(
+                "connection-error"
+            );
+
+            formSuccess.textContent =
+                "Obrigado! Seus dados foram recebidos com sucesso.";
+
+            formSuccess.classList.add("show");
+
+
+            // Limpar formulário
+            form.reset();
+
+
+            // Remover estados de validação
+            document
+                .querySelectorAll(".input-group")
+                .forEach(group => {
+
+                    group.classList.remove(
+                        "valid",
+                        "error"
+                    );
+
+                });
+
+
+        } else {
+
+            // ==============================================
+            // ERRO DE DUPLICAÇÃO
+            // ==============================================
+
+            if (data.field === "email") {
+
+                showError(
+                    email,
+                    data.message
+                );
+
+            }
+
+
+            if (data.field === "whatsapp") {
+
+                showError(
+                    whatsapp,
+                    data.message
+                );
+
+            }
+
+
+            console.error(
+                "Erro:",
+                data.message
+            );
+
+        }
+
+
+    } catch (error) {
+
+        // ==============================================
+        // ERRO DE CONEXÃO COM O BACKEND
+        // ==============================================
+
         console.error(
             "Erro ao enviar o formulário:",
             error
         );
-    });
-}
 
+
+        formSuccess.textContent =
+            "Não foi possível enviar os seus dados neste momento. Tente novamente.";
+
+
+        formSuccess.classList.remove("show");
+
+
+        formSuccess.classList.add(
+            "show",
+            "connection-error"
+        );
+
+    }
 
 });
 
-/* ==========================================================
-   CAPTURA DE DADOS DO FORMULÁRIO
-   ========================================================== */
+// ==========================================================
+// CAPTURAR ORIGEM DO LEAD - UTM
+// ==========================================================
 
-const dados = {
-    nome: nome.value.trim(),
-    email: email.value.trim(),
-    whatsapp: whatsapp.value.trim()
-};
+function getUTMParameters() {
 
-console.log(dados);
+    const params = new URLSearchParams(
+        window.location.search
+    );
+
+    return {
+        utm_source: params.get("utm_source"),
+        utm_medium: params.get("utm_medium"),
+        utm_campaign: params.get("utm_campaign"),
+        utm_content: params.get("utm_content")
+    };
+
+}
