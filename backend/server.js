@@ -5,7 +5,7 @@ const path = require("path");
 const pool = require("./db");
 
 const app = express();
-const PORT = 3002;
+const PORT = process.env.PORT || 3002;
 
 
 // ==========================================================
@@ -95,7 +95,7 @@ app.post("/leads", async (req, res) => {
         // GUARDAR LEAD
         // ==================================================
 
-        const result = await pool.query(
+        const [insertResult] = await pool.query(
             `
             INSERT INTO leads (
                 nome,
@@ -106,18 +106,7 @@ app.post("/leads", async (req, res) => {
                 utm_campaign,
                 utm_content
             )
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
-
-            RETURNING
-                id,
-                nome,
-                email,
-                whatsapp,
-                utm_source,
-                utm_medium,
-                utm_campaign,
-                utm_content,
-                created_at
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             `,
             [
                 nome.trim(),
@@ -129,6 +118,35 @@ app.post("/leads", async (req, res) => {
                 utm_content || null
             ]
         );
+
+
+        const leadId = insertResult.insertId;
+
+
+        // ==================================================
+        // BUSCAR LEAD CRIADO
+        // ==================================================
+
+        const [leadRows] = await pool.query(
+            `
+            SELECT
+                id,
+                nome,
+                email,
+                whatsapp,
+                utm_source,
+                utm_medium,
+                utm_campaign,
+                utm_content,
+                created_at
+            FROM leads
+            WHERE id = ?
+            `,
+            [leadId]
+        );
+
+
+        const lead = leadRows[0];
 
 
         // ==================================================
@@ -156,11 +174,11 @@ app.post("/leads", async (req, res) => {
                 lead_id,
                 expires_at
             )
-            VALUES ($1, $2, $3)
+            VALUES (?, ?, ?)
             `,
             [
                 token,
-                result.rows[0].id,
+                leadId,
                 expiresAt
             ]
         );
@@ -168,8 +186,8 @@ app.post("/leads", async (req, res) => {
 
         console.log(
             "Lead guardado:",
-            result.rows[0].id,
-            result.rows[0].email
+            lead.id,
+            lead.email
         );
 
 
@@ -184,7 +202,7 @@ app.post("/leads", async (req, res) => {
             message:
                 "Lead recebido e guardado com sucesso!",
 
-            lead: result.rows[0],
+            lead: lead,
 
             downloadUrl:
                 `/download/ebook?token=${token}`
@@ -201,38 +219,56 @@ app.post("/leads", async (req, res) => {
 
 
         // ==================================================
-        // EMAIL DUPLICADO
+        // REGISTO DUPLICADO
         // ==================================================
 
-        if (
-            error.code === "23505" &&
-            error.constraint === "leads_email_unique"
-        ) {
+        if (error.code === "ER_DUP_ENTRY") {
+
+            const message = error.message.toLowerCase();
+
+
+            // ==============================================
+            // EMAIL DUPLICADO
+            // ==============================================
+
+            if (
+                message.includes("email") ||
+                message.includes("leads_email_unique")
+            ) {
+
+                return res.status(409).json({
+                    success: false,
+                    field: "email",
+                    message:
+                        "Este e-mail já está cadastrado."
+                });
+
+            }
+
+
+            // ==============================================
+            // WHATSAPP DUPLICADO
+            // ==============================================
+
+            if (
+                message.includes("whatsapp") ||
+                message.includes("leads_whatsapp_unique")
+            ) {
+
+                return res.status(409).json({
+                    success: false,
+                    field: "whatsapp",
+                    message:
+                        "Este número de WhatsApp já está cadastrado."
+                });
+
+            }
+
 
             return res.status(409).json({
                 success: false,
-                field: "email",
                 message:
-                    "Este e-mail já está cadastrado."
-            });
-
-        }
-
-
-        // ==================================================
-        // WHATSAPP DUPLICADO
-        // ==================================================
-
-        if (
-            error.code === "23505" &&
-            error.constraint === "leads_whatsapp_unique"
-        ) {
-
-            return res.status(409).json({
-                success: false,
-                field: "whatsapp",
-                message:
-                    "Este número de WhatsApp já está cadastrado."
+                    "Já existe um lead com estes dados."
             });
 
         }
@@ -261,7 +297,7 @@ app.get("/leads", async (req, res) => {
 
     try {
 
-        const result = await pool.query(
+        const [rows] = await pool.query(
             `
             SELECT
                 id,
@@ -283,7 +319,7 @@ app.get("/leads", async (req, res) => {
 
         return res.json({
             success: true,
-            leads: result.rows
+            leads: rows
         });
 
 
@@ -314,26 +350,44 @@ app.get("/ebook/stats", async (req, res) => {
 
     try {
 
-        const result = await pool.query(
+        const [rows] = await pool.query(
             `
             SELECT
 
-                COUNT(*) FILTER (
-                    WHERE downloaded_at IS NOT NULL
+                COALESCE(
+                    SUM(
+                        CASE
+                            WHEN downloaded_at IS NOT NULL
+                            THEN 1
+                            ELSE 0
+                        END
+                    ),
+                    0
                 ) AS total_downloads,
 
-                COUNT(*) FILTER (
-                    WHERE downloaded_at IS NOT NULL
-                    AND downloaded_at::date = CURRENT_DATE
+                COALESCE(
+                    SUM(
+                        CASE
+                            WHEN downloaded_at IS NOT NULL
+                            AND DATE(downloaded_at) = CURDATE()
+                            THEN 1
+                            ELSE 0
+                        END
+                    ),
+                    0
                 ) AS downloads_today,
 
-                COUNT(*) FILTER (
-                    WHERE downloaded_at IS NOT NULL
-                    AND DATE_TRUNC('month', downloaded_at)
-                        = DATE_TRUNC(
-                            'month',
-                            CURRENT_TIMESTAMP
-                        )
+                COALESCE(
+                    SUM(
+                        CASE
+                            WHEN downloaded_at IS NOT NULL
+                            AND YEAR(downloaded_at) = YEAR(CURDATE())
+                            AND MONTH(downloaded_at) = MONTH(CURDATE())
+                            THEN 1
+                            ELSE 0
+                        END
+                    ),
+                    0
                 ) AS downloads_month
 
             FROM ebook_tokens
@@ -341,7 +395,7 @@ app.get("/ebook/stats", async (req, res) => {
         );
 
 
-        const stats = result.rows[0];
+        const stats = rows[0];
 
 
         return res.json({
@@ -391,7 +445,7 @@ app.get("/ebook/stats/source", async (req, res) => {
 
     try {
 
-        const result = await pool.query(
+        const [rows] = await pool.query(
             `
             SELECT
 
@@ -413,10 +467,13 @@ app.get("/ebook/stats/source", async (req, res) => {
 
                 END AS source,
 
-                COUNT(*) AS leads,
+                COUNT(DISTINCT l.id) AS leads,
 
-                COUNT(*) FILTER (
-                    WHERE et.downloaded_at IS NOT NULL
+                COUNT(
+                    DISTINCT CASE
+                        WHEN et.downloaded_at IS NOT NULL
+                        THEN l.id
+                    END
                 ) AS downloads
 
             FROM leads l
@@ -435,7 +492,7 @@ app.get("/ebook/stats/source", async (req, res) => {
 
             success: true,
 
-            sources: result.rows.map(row => ({
+            sources: rows.map(row => ({
 
                 source:
                     row.source,
@@ -503,7 +560,7 @@ app.get("/download/ebook", async (req, res) => {
         // PROCURAR TOKEN
         // ==================================================
 
-        const result = await pool.query(
+        const [rows] = await pool.query(
             `
             SELECT
                 id,
@@ -515,7 +572,7 @@ app.get("/download/ebook", async (req, res) => {
 
             FROM ebook_tokens
 
-            WHERE token = $1
+            WHERE token = ?
             `,
             [token]
         );
@@ -525,7 +582,7 @@ app.get("/download/ebook", async (req, res) => {
         // TOKEN NÃO EXISTE
         // ==================================================
 
-        if (result.rows.length === 0) {
+        if (rows.length === 0) {
 
             return res.status(404).json({
                 success: false,
@@ -536,8 +593,7 @@ app.get("/download/ebook", async (req, res) => {
         }
 
 
-        const ebookToken =
-            result.rows[0];
+        const ebookToken = rows[0];
 
 
         // ==================================================
@@ -620,7 +676,7 @@ app.get("/download/ebook", async (req, res) => {
                             downloaded_at =
                                 CURRENT_TIMESTAMP
 
-                        WHERE id = $1
+                        WHERE id = ?
                         `,
                         [ebookToken.id]
                     );
