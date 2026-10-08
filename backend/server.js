@@ -2,18 +2,31 @@ const express = require("express");
 const cors = require("cors");
 const crypto = require("crypto");
 const path = require("path");
-const pool = require("./db");
+const { authConfig } = require("./auth/config");
+const { createAuth, noStore } = require("./auth");
+
+function createApp(pool, config = authConfig()) {
 
 const app = express();
-const PORT = process.env.PORT || 3002;
 
 
 // ==========================================================
 // MIDDLEWARE
 // ==========================================================
 
-app.use(cors());
-app.use(express.json());
+const auth = createAuth(pool, config);
+app.use('/auth', noStore);
+app.use(cors({
+    origin(origin, callback) { callback(null, !origin || config.origins.includes(origin)); },
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type']
+}));
+app.use(express.json({ limit: '16kb' }));
+app.post('/auth/login', auth.trustedOrigin, auth.loginLimiter, auth.login);
+app.get('/auth/me', auth.requireAuth, (req, res) => res.json({ success: true, user: req.user }));
+app.post('/auth/logout', auth.trustedOrigin, auth.logout);
+app.use('/crm', express.static(path.join(__dirname, 'dashboard', 'crm')));
 
 
 // ==========================================================
@@ -293,7 +306,7 @@ app.post("/leads", async (req, res) => {
 // LISTAR LEADS
 // ==========================================================
 
-app.get("/leads", async (req, res) => {
+app.get("/leads", auth.requireAuth, auth.requirePermission("leads:read"), async (req, res) => {
 
     try {
 
@@ -346,7 +359,7 @@ app.get("/leads", async (req, res) => {
 // ESTATÍSTICAS DE DOWNLOADS
 // ==========================================================
 
-app.get("/ebook/stats", async (req, res) => {
+app.get("/ebook/stats", auth.requireAuth, auth.requirePermission("stats:read"), async (req, res) => {
 
     try {
 
@@ -441,7 +454,7 @@ app.get("/ebook/stats", async (req, res) => {
 // ESTATÍSTICAS POR PROVENIÊNCIA
 // ==========================================================
 
-app.get("/ebook/stats/source", async (req, res) => {
+app.get("/ebook/stats/source", auth.requireAuth, auth.requirePermission("stats:read"), async (req, res) => {
 
     try {
 
@@ -729,10 +742,19 @@ app.get("/download/ebook", async (req, res) => {
 // IMPORTANTE: DEVE SER O ÚLTIMO BLOCO DO FICHEIRO
 // ==========================================================
 
-app.listen(PORT, () => {
-
-    console.log(
-        `Servidor rodando em http://localhost:${PORT}`
-    );
-
+app.use((error, req, res, next) => {
+    if (res.headersSent) return next(error);
+    console.error('API request failed:', error.code || error.name);
+    res.status(error.status === 400 ? 400 : error.status === 413 ? 413 : 500)
+        .json({ success: false, message: 'Não foi possível processar o pedido.' });
 });
+return app;
+}
+
+if (require.main === module) {
+    const pool = require('./db');
+    createApp(pool).listen(process.env.PORT || 3002, '127.0.0.1', () => {
+        console.log(`Servidor local: http://localhost:${process.env.PORT || 3002}/crm/`);
+    });
+}
+module.exports = { createApp };

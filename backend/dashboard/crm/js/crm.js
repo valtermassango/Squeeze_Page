@@ -75,95 +75,6 @@ const searchLeads = document.getElementById("search-leads");
 let allLeads = [];
 
 
-// ==========================================================
-// 3. ENDEREÇOS DA API
-// ==========================================================
-
-const LEADS_API_URL =
-    "http://localhost:3002/leads";
-
-const DOWNLOAD_STATS_API_URL =
-    "http://localhost:3002/ebook/stats";
-
-const SOURCE_STATS_API_URL =
-    "http://localhost:3002/ebook/stats/source";
-
-
-// ==========================================================
-// 4. BUSCAR LEADS
-// ==========================================================
-
-async function loadLeads() {
-
-    try {
-
-        crmStatus.textContent =
-            "A carregar leads...";
-
-
-        const response =
-            await fetch(LEADS_API_URL);
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                `Erro HTTP: ${response.status}`
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        if (!data.success) {
-
-            throw new Error(
-                data.message ||
-                "Erro ao carregar leads."
-            );
-
-        }
-
-
-        // Guardar leads
-        allLeads = data.leads;
-
-
-        // Atualizar dashboard
-        updateLeadStatistics(allLeads);
-
-        updateSourceStatistics(allLeads);
-
-        renderLeads(allLeads);
-
-
-        crmStatus.textContent =
-            `${allLeads.length} lead(s) encontrado(s).`;
-
-
-    } catch (error) {
-
-        console.error(
-            "Erro ao carregar leads:",
-            error
-        );
-
-
-        crmStatus.textContent =
-            "Não foi possível carregar os leads.";
-
-    }
-
-}
-
-
-// ==========================================================
-// 5. ESTATÍSTICAS DOS LEADS
-// ==========================================================
-
 function updateLeadStatistics(leads) {
 
     // Total de leads
@@ -314,430 +225,227 @@ function updateSourceStatistics(leads) {
 }
 
 
-// ==========================================================
-// 7. BUSCAR ESTATÍSTICAS GERAIS DE DOWNLOADS
-// ==========================================================
-
-async function loadDownloadStatistics() {
-
-    try {
-
-        const response =
-            await fetch(
-                DOWNLOAD_STATS_API_URL
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                `Erro HTTP: ${response.status}`
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        if (!data.success) {
-
-            throw new Error(
-                data.message ||
-                "Erro ao carregar downloads."
-            );
-
-        }
-
-
-        totalDownloads.textContent =
-            data.stats.totalDownloads;
-
-        downloadsToday.textContent =
-            data.stats.downloadsToday;
-
-        downloadsMonth.textContent =
-            data.stats.downloadsMonth;
-
-
-    } catch (error) {
-
-        console.error(
-            "Erro ao carregar estatísticas de downloads:",
-            error
-        );
-
-
-        totalDownloads.textContent = "-";
-        downloadsToday.textContent = "-";
-        downloadsMonth.textContent = "-";
-
-    }
-
-}
-
-
-// ==========================================================
-// 8. BUSCAR DOWNLOADS E TAXA POR PROVENIÊNCIA
-// ==========================================================
-
-async function loadSourceDownloadStatistics() {
-
-    try {
-
-        const response =
-            await fetch(
-                SOURCE_STATS_API_URL
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                `Erro HTTP: ${response.status}`
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        if (!data.success) {
-
-            throw new Error(
-                data.message ||
-                "Erro ao carregar estatísticas por proveniência."
-            );
-
-        }
-
-
-        // ==================================================
-        // VALORES INICIAIS
-        // ==================================================
-
-        downloadsFacebook.textContent = 0;
-        downloadsTikTok.textContent = 0;
-        downloadsYouTube.textContent = 0;
-        downloadsWhatsApp.textContent = 0;
-        downloadsDirect.textContent = 0;
-
-
-        rateFacebook.textContent = "0.0%";
-        rateTikTok.textContent = "0.0%";
-        rateYouTube.textContent = "0.0%";
-        rateWhatsApp.textContent = "0.0%";
-        rateDirect.textContent = "0.0%";
-
-
-        // ==================================================
-        // PROCESSAR CADA PROVENIÊNCIA
-        // ==================================================
-
-        data.sources.forEach(item => {
-
-            const leads =
-                Number(item.leads);
-
-            const downloads =
-                Number(item.downloads);
-
-
-            // ==============================================
-            // CALCULAR TAXA DE DOWNLOAD
-            // ==============================================
-
-            const rate =
-                leads > 0
-                    ? (downloads / leads) * 100
-                    : 0;
-
-
-            const formattedRate =
-                `${rate.toFixed(1)}%`;
-
-
-            // ==============================================
-            // FACEBOOK
-            // ==============================================
-
-            if (item.source === "facebook") {
-
-                downloadsFacebook.textContent =
-                    downloads;
-
-                rateFacebook.textContent =
-                    formattedRate;
-
-            }
-
-
-            // ==============================================
-            // TIKTOK
-            // ==============================================
-
-            else if (item.source === "tiktok") {
-
-                downloadsTikTok.textContent =
-                    downloads;
-
-                rateTikTok.textContent =
-                    formattedRate;
-
-            }
-
-
-            // ==============================================
-            // YOUTUBE
-            // ==============================================
-
-            else if (item.source === "youtube") {
-
-                downloadsYouTube.textContent =
-                    downloads;
-
-                rateYouTube.textContent =
-                    formattedRate;
-
-            }
-
-
-            // ==============================================
-            // WHATSAPP
-            // ==============================================
-
-            else if (item.source === "whatsapp") {
-
-                downloadsWhatsApp.textContent =
-                    downloads;
-
-                rateWhatsApp.textContent =
-                    formattedRate;
-
-            }
-
-
-            // ==============================================
-            // DIRETO / OUTROS
-            // ==============================================
-
-            else if (item.source === "direct") {
-
-                downloadsDirect.textContent =
-                    downloads;
-
-                rateDirect.textContent =
-                    formattedRate;
-
-            }
-
-        });
-
-
-    } catch (error) {
-
-        console.error(
-            "Erro ao carregar estatísticas por proveniência:",
-            error
-        );
-
-
-        downloadsFacebook.textContent = "-";
-        downloadsTikTok.textContent = "-";
-        downloadsYouTube.textContent = "-";
-        downloadsWhatsApp.textContent = "-";
-        downloadsDirect.textContent = "-";
-
-
-        rateFacebook.textContent = "-";
-        rateTikTok.textContent = "-";
-        rateYouTube.textContent = "-";
-        rateWhatsApp.textContent = "-";
-        rateDirect.textContent = "-";
-
-    }
-
-}
-
-
-// ==========================================================
-// 9. MOSTRAR LEADS NA TABELA
-// ==========================================================
-
 function renderLeads(leads) {
 
-    // Limpar tabela
-    leadsTable.innerHTML = "";
-
-
-    // Nenhum lead encontrado
-    if (leads.length === 0) {
-
-        leadsTable.innerHTML = `
-            <tr>
-                <td colspan="9">
-                    Nenhum lead encontrado.
-                </td>
-            </tr>
-        `;
-
+    leadsTable.replaceChildren();
+    if (!leads.length) {
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+        cell.colSpan = 9;
+        cell.textContent = 'Nenhum lead encontrado.';
+        row.append(cell);
+        leadsTable.append(row);
         return;
-
     }
-
-
-    // Criar linha para cada lead
     leads.forEach(lead => {
-
-        const row =
-            document.createElement("tr");
-
-
-        // Formatar data
-        const date =
-            new Date(
-                lead.created_at
-            );
-
-
-        const formattedDate =
-            date.toLocaleString(
-                "pt-PT",
-                {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
-            );
-
-
-        row.innerHTML = `
-
-            <td>${lead.id}</td>
-
-            <td>${lead.nome}</td>
-
-            <td>${lead.email}</td>
-
-            <td>${lead.whatsapp}</td>
-
-            <td>
-                ${lead.utm_source || "Direto"}
-            </td>
-
-            <td>
-                ${lead.utm_medium || "-"}
-            </td>
-
-            <td>
-                ${lead.utm_campaign || "-"}
-            </td>
-
-            <td>
-                ${lead.utm_content || "-"}
-            </td>
-
-            <td>
-                ${formattedDate}
-            </td>
-
-        `;
-
-
-        leadsTable.appendChild(row);
-
+        const row = document.createElement('tr');
+        const values = [lead.id, lead.nome, lead.email, lead.whatsapp,
+            lead.utm_source || 'Direto', lead.utm_medium || '-',
+            lead.utm_campaign || '-', lead.utm_content || '-',
+            new Date(lead.created_at).toLocaleString('pt-PT')];
+        values.forEach(value => {
+            const cell = document.createElement('td');
+            cell.textContent = String(value ?? '');
+            row.append(cell);
+        });
+        leadsTable.append(row);
     });
-
 }
 
 
-// ==========================================================
-// 10. PESQUISAR LEADS
-// ==========================================================
+// Express serves the CRM and API on the same origin.
+const loginPanel = document.getElementById('login-panel');
+const loginForm = document.getElementById('login-form');
+const loginFields = document.getElementById('login-fields');
+const loginStatus = document.getElementById('login-status');
+const loginPassword = document.getElementById('login-password');
+const logoutButton = document.getElementById('logout-button');
+const retryLogout = document.getElementById('retry-logout');
+let authenticated = false;
+let authVersion = 0;
+let loadingDashboard = false;
+let logoutPending = false;
 
-searchLeads.addEventListener(
-    "input",
-    () => {
-
-        const searchTerm =
-            searchLeads.value
-                .trim()
-                .toLowerCase();
-
-
-        const filteredLeads =
-            allLeads.filter(lead => {
-
-                return (
-
-                    lead.nome
-                        .toLowerCase()
-                        .includes(searchTerm)
-
-                    ||
-
-                    lead.email
-                        .toLowerCase()
-                        .includes(searchTerm)
-
-                    ||
-
-                    lead.whatsapp
-                        .includes(searchTerm)
-
-                );
-
-            });
-
-
-        renderLeads(
-            filteredLeads
-        );
-
-    }
-);
-
-
-// ==========================================================
-// 11. BOTÃO ATUALIZAR
-// ==========================================================
-
-refreshButton.addEventListener(
-    "click",
-    async () => {
-
-        await loadLeads();
-
-        await loadDownloadStatistics();
-
-        await loadSourceDownloadStatistics();
-
-    }
-);
-
-
-// ==========================================================
-// 12. CARREGAR DASHBOARD
-// ==========================================================
-
+class ApiError extends Error {
+    constructor(status) { super('API request failed'); this.status = status; }
+}
+function safeMessage(error) {
+    if (error.status === 403) return 'Acesso negado. Não tem permissão para esta operação.';
+    if (error.status === 429) return 'Demasiadas tentativas. Aguarde alguns minutos e tente novamente.';
+    return 'Não foi possível concluir o pedido. Verifique a ligação e tente novamente.';
+}
+async function apiRequest(path, options = {}) {
+    const response = await fetch(path, {
+        ...options, credentials: 'include', cache: 'no-store',
+        signal: AbortSignal.timeout(15000)
+    });
+    // Check HTTP status before parsing: error pages need not contain JSON.
+    if (!response.ok) throw new ApiError(response.status);
+    return response.json();
+}
+function clearData() {
+    allLeads = [];
+    leadsTable.replaceChildren();
+    searchLeads.value = '';
+    crmStatus.textContent = '';
+    document.querySelectorAll('.stat-value, .source-download strong, .source-rate strong')
+        .forEach(el => { el.textContent = '—'; });
+    document.getElementById('current-user').textContent = '';
+}
+function showLogin(message = '') {
+    authenticated = false;
+    authVersion++;
+    clearData();
+    document.querySelector('.sidebar').hidden = true;
+    document.querySelector('.main-content').hidden = true;
+    loginPanel.hidden = false;
+    loginPassword.value = '';
+    loginStatus.textContent = message;
+}
+function filterLeads() {
+    if (!authenticated) return;
+    const term = searchLeads.value.trim().toLowerCase();
+    renderLeads(allLeads.filter(lead => [lead.nome, lead.email, lead.whatsapp]
+        .some(value => String(value ?? '').toLowerCase().includes(term))));
+}
+function renderDownloads(stats, sources) {
+    totalDownloads.textContent = stats.totalDownloads;
+    downloadsToday.textContent = stats.downloadsToday;
+    downloadsMonth.textContent = stats.downloadsMonth;
+    const cards = {
+        facebook: [downloadsFacebook, rateFacebook],
+        tiktok: [downloadsTikTok, rateTikTok],
+        youtube: [downloadsYouTube, rateYouTube],
+        whatsapp: [downloadsWhatsApp, rateWhatsApp],
+        direct: [downloadsDirect, rateDirect]
+    };
+    Object.values(cards).forEach(([count, rate]) => {
+        count.textContent = '0'; rate.textContent = '0.0%';
+    });
+    sources.forEach(item => {
+        if (!Object.hasOwn(cards, item.source)) return;
+        const [count, rate] = cards[item.source];
+        const leads = Number(item.leads);
+        const downloads = Number(item.downloads);
+        count.textContent = downloads;
+        rate.textContent = `${(leads > 0 ? downloads / leads * 100 : 0).toFixed(1)}%`;
+    });
+}
 async function loadDashboard() {
-
-    await loadLeads();
-
-    await loadDownloadStatistics();
-
-    await loadSourceDownloadStatistics();
-
+    if (!authenticated || loadingDashboard) return;
+    loadingDashboard = true;
+    refreshButton.disabled = true;
+    const version = authVersion;
+    crmStatus.textContent = 'A carregar leads e estatísticas...';
+    try {
+        // Stop immediately on an authorization failure; commit UI updates together.
+        const leads = await apiRequest('/leads');
+        if (version !== authVersion) return;
+        const downloads = await apiRequest('/ebook/stats');
+        if (version !== authVersion) return;
+        const sources = await apiRequest('/ebook/stats/source');
+        if (version !== authVersion) return;
+        if (!leads.success || !Array.isArray(leads.leads) ||
+            !downloads.success || !downloads.stats ||
+            !sources.success || !Array.isArray(sources.sources)) throw new ApiError(500);
+        allLeads = leads.leads;
+        updateLeadStatistics(allLeads);
+        updateSourceStatistics(allLeads);
+        filterLeads();
+        renderDownloads(downloads.stats, sources.sources);
+        crmStatus.textContent = `${allLeads.length} lead(s) encontrado(s).`;
+    } catch (error) {
+        if (version !== authVersion) return;
+        if (error.status === 401) showLogin('A sessão expirou. Entre novamente.');
+        else {
+            allLeads = [];
+            leadsTable.replaceChildren();
+            document.querySelectorAll('.stat-value, .source-download strong, .source-rate strong')
+                .forEach(el => { el.textContent = '—'; });
+            crmStatus.textContent = safeMessage(error);
+        }
+    } finally {
+        loadingDashboard = false;
+        refreshButton.disabled = false;
+        // A new login may have happened while an old data request was finishing.
+        if (authenticated && version !== authVersion) void loadDashboard();
+    }
 }
-
-
-// ==========================================================
-// INICIAR CRM
-// ==========================================================
-
-loadDashboard();
+function signedIn(user) {
+    if (!user || typeof user.email !== 'string') throw new ApiError(500);
+    authVersion++;
+    authenticated = true;
+    loginPanel.hidden = true;
+    document.querySelector('.sidebar').hidden = false;
+    document.querySelector('.main-content').hidden = false;
+    document.getElementById('current-user').textContent = user.email;
+    logoutButton.focus();
+    void loadDashboard();
+}
+loginForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (loginFields.disabled || logoutPending) return;
+    loginFields.disabled = true;
+    loginStatus.textContent = 'A entrar...';
+    try {
+        const pending = apiRequest('/auth/login', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: document.getElementById('login-email').value,
+                password: loginPassword.value })
+        });
+        loginPassword.value = '';
+        const data = await pending;
+        if (!data.success) throw new ApiError(500);
+        signedIn(data.user);
+    } catch (error) {
+        loginStatus.textContent = error.status === 401 ?
+            'E-mail ou palavra-passe inválidos.' : safeMessage(error);
+    } finally {
+        loginPassword.value = '';
+        loginFields.disabled = false;
+    }
+});
+async function logout() {
+    if (retryLogout.disabled) return;
+    logoutPending = true;
+    loginFields.disabled = true;
+    retryLogout.disabled = true;
+    retryLogout.hidden = true;
+    // Invalidate pending data responses immediately and erase displayed data.
+    showLogin('A terminar a sessão...');
+    try {
+        await apiRequest('/auth/logout', { method: 'POST' });
+        logoutPending = false;
+        loginStatus.textContent = 'Sessão terminada.';
+    } catch (error) {
+        if (error.status === 401) {
+            logoutPending = false;
+            loginStatus.textContent = 'A sessão terminou. Entre novamente.';
+        } else {
+            loginStatus.textContent = `${safeMessage(error)} A saída não foi confirmada. Tente terminar a sessão novamente.`;
+            retryLogout.hidden = false;
+        }
+    } finally {
+        retryLogout.disabled = false;
+        loginFields.disabled = logoutPending;
+        if (logoutPending) retryLogout.focus();
+        else document.getElementById('login-email').focus();
+    }
+}
+logoutButton.addEventListener('click', logout);
+retryLogout.addEventListener('click', logout);
+searchLeads.addEventListener('input', filterLeads);
+refreshButton.addEventListener('click', loadDashboard);
+(async () => {
+    showLogin('A verificar a sessão...');
+    loginFields.disabled = true;
+    try {
+        const data = await apiRequest('/auth/me');
+        if (!data.success) throw new ApiError(500);
+        signedIn(data.user);
+    } catch (error) {
+        showLogin(error.status === 401 ? '' : safeMessage(error));
+    } finally {
+        loginFields.disabled = false;
+    }
+})();

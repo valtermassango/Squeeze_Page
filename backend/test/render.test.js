@@ -1,0 +1,21 @@
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const path = require('node:path');
+test('all public lead fields render as literal text, never HTML', () => {
+    const source = fs.readFileSync(path.join(__dirname, '../dashboard/crm/js/crm.js'), 'utf8');
+    assert.ok(!source.includes('innerHTML'));
+    const element = () => ({ children: [], append(child) { this.children.push(child); }, replaceChildren() { this.children = []; } });
+    const table = element();
+    const context = { leadsTable: table, document: { createElement: element } };
+    vm.createContext(context);
+    vm.runInContext(source.slice(source.indexOf('function renderLeads('), source.indexOf('// 10. PESQUISAR')), context);
+    const payload = '<img src=x onerror=alert(1)>';
+    context.renderLeads([{ id: payload, nome: payload, email: payload, whatsapp: payload, utm_source: payload, utm_medium: payload, utm_campaign: payload, utm_content: payload, created_at: '2026-01-01' }]);
+    assert.equal(table.children.length, 1);
+    assert.equal(table.children[0].children.length, 9);
+    for (const cell of table.children[0].children.slice(0, 8)) assert.equal(cell.textContent, payload);
+    context.renderLeads([]);
+    assert.equal(table.children[0].children[0].colSpan, 9);
+});

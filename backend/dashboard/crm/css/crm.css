@@ -532,3 +532,36 @@ tbody tr:last-child td {
     box-shadow:
         0 0 0 2px rgba(8, 43, 95, 0.08);
 }
+[hidden] { display: none !important; }
+.login-panel {
+    width: min(460px, calc(100% - 32px));
+    margin: clamp(24px, 9vh, 100px) auto;
+    padding: clamp(24px, 5vw, 40px);
+    background: #fff;
+    border: 1px solid #DCE6F2;
+    border-top: 5px solid #082B5F;
+    border-radius: 16px;
+    box-shadow: 0 18px 60px rgba(8, 43, 95, 0.10);
+}
+.login-brand { color: #082B5F; font-size: 1.2rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 36px; }
+.login-brand span { display: inline-block; font-size: .7rem; padding: 5px 8px; background: #EEF5FD; border-radius: 5px; vertical-align: middle; }
+.login-eyebrow { color: #52657C; font-size: .8rem; margin-bottom: 10px; }
+.login-panel h1 { color: #082B5F; font-size: 1.7rem; line-height: 1.2; }
+.login-description { color: #52657C; line-height: 1.6; margin-top: 12px; font-size: .95rem; }
+.login-panel form { margin-top: 28px; }
+.login-panel fieldset { border: 0; min-width: 0; display: grid; gap: 10px; }
+.login-panel label { font-size: .875rem; font-weight: 600; }
+.login-panel input { width: 100%; min-width: 0; border: 1px solid #AABBD0; border-radius: 7px; padding: 12px; font: inherit; margin-bottom: 10px; color: #1F2937; }
+.login-panel button, #logout-button { padding: 12px 16px; font: inherit; border-radius: 7px; cursor: pointer; border: 1px solid #082B5F; background: #082B5F; color: white; }
+.login-panel button:hover, #logout-button:hover { background: #0B3D82; }
+button:disabled { opacity: .6; cursor: wait; }
+:focus-visible { outline: 3px solid #357BC6; outline-offset: 3px; }
+#login-status { margin-top: 18px; min-height: 1.4em; font-size: .9rem; line-height: 1.5; color: #334155; }
+.login-footer { border-top: 1px solid #E2E8F0; margin-top: 24px; padding-top: 20px; color: #52657C; font-size: .75rem; text-align: center; }
+.user-area { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; max-width: 100%; }
+#current-user { overflow-wrap: anywhere; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 650px) {
+    .lead-tools { width: 100%; flex-wrap: wrap; }
+    #search-leads { width: 100%; }
+}

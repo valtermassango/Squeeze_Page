@@ -8,7 +8,11 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "admin:create": "node scripts/create-admin.js",
+    "admin:reset-password": "node scripts/reset-admin-password.js",
+    "test": "node --test test/*.test.js",
+    "dev:local": "CRM_LOCAL=1 node server.js"
   },
   "keywords": [
     "cadbimoz",
@@ -19,9 +23,12 @@
   "author": "CADBIMOZ",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.45.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "express-session": "^1.19.0",
     "mysql2": "^3.24.4",
     "pg": "^8.23.0"
   }

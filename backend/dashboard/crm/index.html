@@ -18,12 +18,32 @@
 
 
 <body>
+    <section id="login-panel" class="login-panel" aria-labelledby="login-title">
+        <div class="login-brand">CADBIMOZ <span>CRM</span></div>
+        <p class="login-eyebrow">Gestão de contactos</p>
+        <h1 id="login-title">Bem-vindo de volta</h1>
+        <p class="login-description">Entre para acompanhar os seus leads, campanhas e downloads.</p>
+        <form id="login-form" aria-describedby="login-status">
+            <fieldset id="login-fields" disabled>
+                <legend class="sr-only">Credenciais de acesso</legend>
+                <label for="login-email">E-mail</label>
+                <input id="login-email" name="email" type="email" autocomplete="username" required maxlength="254" placeholder="nome@empresa.com" spellcheck="false" autocapitalize="none">
+                <label for="login-password">Palavra-passe</label>
+                <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+                <button id="login-button" type="submit">Entrar no CRM</button>
+            </fieldset>
+        </form>
+        <p id="login-status" role="status" aria-live="polite">A verificar a sessão...</p>
+        <button id="retry-logout" type="button" hidden>Tentar terminar a sessão novamente</button>
+        <p class="login-footer">Acesso reservado à equipa CADBIMOZ</p>
+        <noscript>Ative o JavaScript para entrar no CRM.</noscript>
+    </section>
 
     <!-- ==================================================
          SIDEBAR
     =================================================== -->
 
-    <aside class="sidebar">
+    <aside class="sidebar" hidden>
 
         <div class="logo">
             CADBIMOZ
@@ -72,7 +92,7 @@
          CONTEÚDO PRINCIPAL
     =================================================== -->
 
-    <main class="main-content">
+    <main class="main-content" hidden>
 
 
         <!-- ==================================================
@@ -95,9 +115,8 @@
 
             <div class="user-area">
 
-                <span>
-                    Administrador
-                </span>
+                <span id="current-user"></span>
+                <button id="logout-button" type="button">Sair</button>
 
             </div>
 
@@ -434,6 +453,7 @@
                     <input
                         type="search"
                         id="search-leads"
+                        aria-label="Pesquisar por nome, e-mail ou WhatsApp"
                         placeholder="Pesquisar lead..."
                         autocomplete="off"
                     >
@@ -457,6 +477,8 @@
             <p
                 id="crm-status"
                 class="crm-status"
+                role="status"
+                aria-live="polite"
             ></p>
 
 
